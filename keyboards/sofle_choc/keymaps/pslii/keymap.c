@@ -25,6 +25,8 @@ enum sofle_layers {
 enum custom_keycodes {
     KC_PRVWD = QK_USER,
     KC_NXTWD,
+    KC_DPVWD, // Delete previous word
+    KC_DNXWD, // Delete next word
     KC_LSTRT,
     KC_LEND,
     KC_DLINE
@@ -157,6 +159,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     unregister_mods(mod_config(MOD_LCTL));
                     unregister_code(KC_RIGHT);
+                }
+            }
+            return false;
+        case KC_DPVWD:
+            if (record->event.pressed) {
+                if (keymap_config.swap_lctl_lgui) {
+                    // OPT + KC_BSPC
+                    register_mods(mod_config(MOD_LALT));
+                    register_code(KC_BSPC);
+                } else {
+                    register_mods(mod_config(MOD_LCTL));
+                    register_code(KC_BSPC);
+                }
+            } else {
+                if (keymap_config.swap_lctl_lgui) {
+                    unregister_mods(mod_config(MOD_LALT));
+                    unregister_code(KC_BSPC);
+                } else 
+                    unregister_mods(mod_config(MOD_LCTL));
+                    unregister_code(KC_BSPC);
+                
+            }
+            return false;
+        case KC_DNXWD:
+             if (record->event.pressed) {
+                if (keymap_config.swap_lctl_lgui) {
+                    // on Mac: OPT + KC_DEL
+                    register_mods(mod_config(MOD_LALT));
+                    register_code(KC_DEL);
+                } else {
+                    register_mods(mod_config(MOD_LCTL));
+                    register_code(KC_DEL);
+                }
+            } else {
+                if (keymap_config.swap_lctl_lgui) {
+                    unregister_mods(mod_config(MOD_LALT));
+                    unregister_code(KC_DEL);
+                } else {
+                    unregister_mods(mod_config(MOD_LCTL));
+                    unregister_code(KC_DEL);
                 }
             }
             return false;
