@@ -29,7 +29,8 @@ enum custom_keycodes {
     KC_DNXWD, // Delete next word
     KC_LSTRT,
     KC_LEND,
-    KC_DLINE
+    KC_DSTRT, // Delete to start of line
+    KC_DEND // Delete to end of line
 };
 
 
@@ -73,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
     _______, _______, _______, _______, _______,  _______,                         _______, _______,   _______, _______,   _______,  _______,
-    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DLINE, KC_BSPC,
+    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
     _______, KC_LALT, KC_LCTL, KC_LSFT, KC_FIND,  KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
     _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, KC_WBAK,       KC_WFWD, XXXXXXX, KC_LSTRT,  XXXXXXX, KC_LEND,   XXXXXXX,  _______,
                       _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
@@ -238,13 +239,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
-        case KC_DLINE:
+        case KC_DSTRT:
             if (record->event.pressed) {
                 register_mods(mod_config(MOD_LCTL));
                 register_code(KC_BSPC);
             } else {
                 unregister_mods(mod_config(MOD_LCTL));
                 unregister_code(KC_BSPC);
+            }
+            return false;
+        case KC_DEND:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_K);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_K);
             }
             return false;
         case KC_COPY:
