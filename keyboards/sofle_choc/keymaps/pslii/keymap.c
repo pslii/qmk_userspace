@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      | Ins  | Pscr | Menu |      |      |                    | PgUp | PWrd |  Up  | NWrd | DLine| Bspc |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | LAlt | LCtl |LShift| Find | Caps |-------.    ,-------| PgDn | Left | Down | Right|  Del | Bspc |
+ * |      | LAlt | LCtl |LShift| Del  | Caps |-------.    ,-------| PgDn | Left | Down | Right|  Del | Bspc |
  * |------+------+------+------+------+------| Back  |    | Fwd   |------+------+------+------+------+------|
  * |      | Undo |  Cut | Copy | Paste|      |-------|    |-------|      | LStr |      | LEnd |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -250,6 +250,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case KC_DSTRT:
             if (record->event.pressed) {
+                // Cmd + Bspc
                 register_mods(mod_config(MOD_LCTL));
                 register_code(KC_BSPC);
             } else {
@@ -259,10 +260,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case KC_DEND:
             if (record->event.pressed) {
-                register_mods(mod_config(MOD_LCTL));
+                // Ctrl + K
+                register_mods(mod_config(KC_LGUI));
                 register_code(KC_K);
             } else {
-                unregister_mods(mod_config(MOD_LCTL));
+                unregister_mods(mod_config(KC_LGUI));
                 unregister_code(KC_K);
             }
             return false;
