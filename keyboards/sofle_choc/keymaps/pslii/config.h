@@ -28,6 +28,8 @@
 // I've found this helps with some ProMicros where the slave does not boot
 #define SPLIT_USB_DETECT
 
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+
 #ifdef RGB_MATRIX_ENABLE
 
 #define RGB_DISABLE_WHEN_USB_SUSPENDED     // turn off effects when suspended
