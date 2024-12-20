@@ -20,14 +20,18 @@ enum sofle_layers {
     _LOWER,
     _RAISE,
     _ADJUST,
+    _DEL,
 };
 
 enum custom_keycodes {
     KC_PRVWD = QK_USER,
     KC_NXTWD,
+    KC_DPVWD, // Delete previous word
+    KC_DNXWD, // Delete next word
     KC_LSTRT,
     KC_LEND,
-    KC_DLINE
+    KC_DSTRT, // Delete to start of line
+    KC_DEND // Delete to end of line
 };
 
 
@@ -71,8 +75,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
     _______, _______, _______, _______, _______,  _______,                         _______, _______,   _______, _______,   _______,  _______,
-    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DLINE, KC_BSPC,
-    _______, KC_LALT, KC_LCTL, KC_LSFT, KC_FIND,  KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
+    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
+    _______, KC_LALT, KC_LCTL, KC_LSFT, MO(_DEL), KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
     _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, KC_WBAK,       KC_WFWD, XXXXXXX, KC_LSTRT,  XXXXXXX, KC_LEND,   XXXXXXX,  _______,
                       _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
 ),
@@ -117,7 +121,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, RGB_SPD, RGB_VAD, RGB_SAD, RGB_HUD, RGB_MODE_REVERSE,              KC_BRID, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
     CG_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                       _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
-)
+),
+
+[_DEL] = LAYOUT(
+    _______, _______, _______, _______, _______,  _______,                         XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                         XXXXXXX, KC_DPVWD, XXXXXXX, KC_DNXWD, XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, MO(_DEL), XXXXXXX,                         XXXXXXX, KC_BSPC,  XXXXXXX, KC_DEL,   XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, KC_DSTRT, XXXXXXX, KC_DEND,  XXXXXXX, XXXXXXX,
+                      _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
+),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -160,6 +172,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
+        case KC_DPVWD:
+            if (record->event.pressed) {
+                if (keymap_config.swap_lctl_lgui) {
+                    // OPT + KC_BSPC
+                    register_mods(mod_config(MOD_LALT));
+                    register_code(KC_BSPC);
+                } else {
+                    register_mods(mod_config(MOD_LCTL));
+                    register_code(KC_BSPC);
+                }
+            } else {
+                if (keymap_config.swap_lctl_lgui) {
+                    unregister_mods(mod_config(MOD_LALT));
+                    unregister_code(KC_BSPC);
+                } else {
+                    unregister_mods(mod_config(MOD_LCTL));
+                    unregister_code(KC_BSPC);
+                }
+            }
+            return false;
+        case KC_DNXWD:
+             if (record->event.pressed) {
+                if (keymap_config.swap_lctl_lgui) {
+                    // on Mac: OPT + KC_DEL
+                    register_mods(mod_config(MOD_LALT));
+                    register_code(KC_DEL);
+                } else {
+                    register_mods(mod_config(MOD_LCTL));
+                    register_code(KC_DEL);
+                }
+            } else {
+                if (keymap_config.swap_lctl_lgui) {
+                    unregister_mods(mod_config(MOD_LALT));
+                    unregister_code(KC_DEL);
+                } else {
+                    unregister_mods(mod_config(MOD_LCTL));
+                    unregister_code(KC_DEL);
+                }
+            }
+            return false;
         case KC_LSTRT:
             if (record->event.pressed) {
                 if (keymap_config.swap_lctl_lgui) {
@@ -196,13 +248,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
-        case KC_DLINE:
+        case KC_DSTRT:
             if (record->event.pressed) {
                 register_mods(mod_config(MOD_LCTL));
                 register_code(KC_BSPC);
             } else {
                 unregister_mods(mod_config(MOD_LCTL));
                 unregister_code(KC_BSPC);
+            }
+            return false;
+        case KC_DEND:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_K);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_K);
             }
             return false;
         case KC_COPY:
@@ -257,6 +318,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_LOWER] =  { ENCODER_CCW_CW(RGB_HUD, RGB_HUI),   ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
     [_RAISE] =  { ENCODER_CCW_CW(RGB_VAD, RGB_VAI),   ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
     [_ADJUST] = { ENCODER_CCW_CW(RGB_RMOD, RGB_MOD),  ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+    [_DEL] =    { ENCODER_CCW_CW(RGB_HUD, RGB_HUI),   ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
 };
 #endif
 
