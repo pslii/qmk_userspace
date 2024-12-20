@@ -14,3 +14,6 @@ EXTRAKEY_ENABLE = yes
 # Enable link time optimization
 # Trade longer compile time for smaller firmware size
 LTO_ENABLE = yes
+
+# Caps word
+CAPS_WORD_ENABLE = yes
