@@ -63,9 +63,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | Ins  | Pscr | Menu |      |      |                    | PgUp | PWrd |  Up  | NWrd | DLine| Bspc |
+ * |      | Ins  |      |Opt-C |Ctrl-R|Ctrl-T|                    | PgUp | PWrd |  Up  | NWrd |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | LAlt | LCtl |LShift| Del  | Caps |-------.    ,-------| PgDn | Left | Down | Right|  Del | Bspc |
+ * |      | LAlt | LCtl |LShift| Del  | Caps |-------.    ,-------| PgDn | Left | Down | Right|      |      |
  * |------+------+------+------+------+------| Back  |    | Fwd   |------+------+------+------+------+------|
  * |      | Undo |  Cut | Copy | Paste|      |-------|    |-------|      | LStr |      | LEnd |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -75,10 +75,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
     _______, _______, _______, _______, _______,  _______,                         _______, _______,   _______, _______,   _______,  _______,
-    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
-    _______, KC_LALT, KC_LCTL, KC_LSFT, MO(_DEL), KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
+    _______, KC_INS,  XXXXXXX, LALT(KC_C), LGUI(KC_R), LGUI(KC_T),                 KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  XXXXXXX,  XXXXXXX,
+    KC_CAPS, KC_LALT, KC_LCTL, KC_LSFT, MO(_DEL), XXXXXXX,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   XXXXXXX,  XXXXXXX,
     _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, KC_WBAK,       KC_WFWD, XXXXXXX, KC_LSTRT,  XXXXXXX, KC_LEND,   XXXXXXX,  _______,
-                      _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
+                      _______, _______, _______,  _______, _______,       _______, _______,  _______,  _______, _______
 ),
 /* RAISE - Sym
  * ,-----------------------------------------.                    ,-----------------------------------------.
