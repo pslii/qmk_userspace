@@ -20,6 +20,7 @@ enum sofle_layers {
     _LOWER,
     _RAISE,
     _ADJUST,
+    _DEL,
 };
 
 enum custom_keycodes {
@@ -75,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT(
     _______, _______, _______, _______, _______,  _______,                         _______, _______,   _______, _______,   _______,  _______,
     _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
-    _______, KC_LALT, KC_LCTL, KC_LSFT, KC_FIND,  KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
+    _______, KC_LALT, KC_LCTL, KC_LSFT, MO(_DEL), KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
     _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, KC_WBAK,       KC_WFWD, XXXXXXX, KC_LSTRT,  XXXXXXX, KC_LEND,   XXXXXXX,  _______,
                       _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
 ),
@@ -120,7 +121,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, RGB_SPD, RGB_VAD, RGB_SAD, RGB_HUD, RGB_MODE_REVERSE,              KC_BRID, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
     CG_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                       _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
-)
+),
+
+[_DEL] = LAYOUT(
+    _______, _______, _______, _______, _______,  _______,                         XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                         XXXXXXX, KC_DPVWD, XXXXXXX, KC_DNXWD, XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, MO(_DEL), XXXXXXX,                         XXXXXXX, KC_BSPC,  XXXXXXX, KC_DEL,   XXXXXXX, XXXXXXX,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, KC_DSTRT, XXXXXXX, KC_DEND,  XXXXXXX, XXXXXXX,
+                      _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
+),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
