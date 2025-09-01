@@ -50,6 +50,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            | LGUI | LALT | LCTL |Space | /LOWER  /       \RAISE \  |Enter | Bspc | RALT | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
  *            `----------------------------------'           '------''---------------------------'
+ * 
+ *. GUI = Ctrl
+ *  ALT = Option
+ *  CTL = Cmd
  */
 
 [_QWERTY] = LAYOUT(
@@ -60,10 +64,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_LGUI, KC_LALT, KC_LCTL, KC_SPC,  TL_LOWR,   TL_UPPR,KC_ENT,   KC_BSPC,  KC_RALT, KC_RGUI
 ),
 /* LOWER - Nav
+ * LHS has fzf bindings
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | Ins  | Pscr | Menu |      |      |                    | PgUp | PWrd |  Up  | NWrd | DLine| Bspc |
+ * |      |      |      |Opt-C |Ctrl-R|Ctrl-T|                    | PgUp | PWrd |  Up  | NWrd | DLine| Bspc |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      | LAlt | LCtl |LShift| Del  | Caps |-------.    ,-------| PgDn | Left | Down | Right|  Del | Bspc |
  * |------+------+------+------+------+------| Back  |    | Fwd   |------+------+------+------+------+------|
@@ -75,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
     _______, _______, _______, _______, _______,  _______,                         _______, _______,   _______, _______,   _______,  _______,
-    _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX,                         KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
+    _______, XXXXXXX, XXXXXXX, LOPT(KC_C),LGUI(KC_R),LGUI(KC_T),                   KC_PGUP, KC_PRVWD,  KC_UP,   KC_NXTWD,  KC_DSTRT, KC_BSPC,
     _______, KC_LALT, KC_LCTL, KC_LSFT, MO(_DEL), KC_CAPS,                         KC_PGDN, KC_LEFT,   KC_DOWN, KC_RGHT,   KC_DEL,   KC_BSPC,
     _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, KC_WBAK,       KC_WFWD, XXXXXXX, KC_LSTRT,  XXXXXXX, KC_LEND,   XXXXXXX,  _______,
                       _______, _______, _______,  _______, _______,       _______, _______,  _______,   _______, _______
